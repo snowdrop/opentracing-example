@@ -12,8 +12,10 @@ import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -28,6 +30,7 @@ public class App {
     }
 
     @Bean
+    @ConditionalOnExpression("'System.getenv(\"HOSTNAME\")'=='null'")
     public Tracer jaegerTracer() {
         Sender sender = new HttpSender(URL);
         Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();

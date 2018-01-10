@@ -1,5 +1,7 @@
 # Instructions to play with Distributed Tracing
 
+## Spring Boot running locally 
+
 1. Install Jaeger on OpenShift to collect the traces
 
 ```bash
@@ -94,3 +96,21 @@ Transfer-Encoding: chunked
                         },
 
 ```
+
+## Spring Boot deployed on OpenShift with Jaeger Agent as sidecar
+
+1. Deploy the Spring Boot app
+
+```bash
+mvn install fabric8:deploy -Popenshift
+```
+
+2. Get it route and curl the service
+
+```bash
+oc get route/booster-opentracing --template={{.spec.host}} 
+http http://booster-opentracing-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
+```
+
+## Spring Boot on Istio using jaeger
+

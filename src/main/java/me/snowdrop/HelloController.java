@@ -1,6 +1,7 @@
 package me.snowdrop;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +13,13 @@ public class HelloController {
     @Autowired
     private RestTemplate restTemplate;
 
+    public String getHostname() {
+        return System.getenv("HOSTNAME") == null ? "a local machine" : System.getenv("HOSTNAME") + "pod";
+    }
+
     @RequestMapping("/hello")
     public String hello() {
-        return "Hello from Spring Boot!";
+        return "Hello from Spring Boot running on " + getHostname() + " !'";
     }
 
     @RequestMapping("/chaining")
