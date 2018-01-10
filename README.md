@@ -68,14 +68,15 @@ and next define the httpSender class to access the Jaeger collector running on O
 @Value("${http.sender}")
 String URL;
 
-@Bean
-public Tracer jaegerTracer() {
-    Sender sender = new HttpSender(URL);
-    return new Configuration("spring-boot",
-            new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-            new Configuration.ReporterConfiguration(sender))
-            .getTracer();
-}
+    @Bean
+    public Tracer jaegerTracer() {
+        Sender sender = new HttpSender(URL);
+        Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
+        return new Configuration("spring-boot",
+                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+                new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
+                .getTracer();
+    }
 ```
 
 6. Start Spring Boot
