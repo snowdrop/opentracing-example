@@ -99,13 +99,59 @@ Transfer-Encoding: chunked
 
 ## Spring Boot deployed on OpenShift with Jaeger Agent as sidecar
 
-1. Deploy the Spring Boot app
+1. Add a fabric8 dc.yml file containing the definition of the jaeger-agent container to be deployed within the same pod
+
+```bash
+spec:
+  template:
+    spec:
+      containers:
+      - image: jaegertracing/jaeger-agent
+        name: jaeger-agent
+        ports:
+        - containerPort: 5775
+          protocol: UDP
+        - containerPort: 5778
+        - containerPort: 6831
+          protocol: UDP
+        - containerPort: 6832
+          protocol: UDP
+        command:
+        - "/go/bin/agent-linux"
+        - "--collector.host-port=jaeger-collector.jaeger-infra.svc:14267"
+      - image: booster-opentracing:latest
+        imagePullPolicy: IfNotPresent
+        name: spring-boot
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        securityContext:
+          privileged: false
+```
+
+2. Add a new Bean to use the default config and call the udp ports `localhost:5775/localhost:6831/localhost:6832`
+
+```java
+@Bean
+public Tracer jaegerTracer() {
+    return new Configuration("spring-boot",
+            new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+            new Configuration.ReporterConfiguration())
+            .getTracer();
+}
+```
+
+3. Deploy the Spring Boot app
 
 ```bash
 mvn install fabric8:deploy -Popenshift
 ```
 
-2. Get it route and curl the service
+2. Get the route and curl the service
 
 ```bash
 oc get route/booster-opentracing --template={{.spec.host}} 
@@ -113,4 +159,6 @@ http http://booster-opentracing-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu
 ```
 
 ## Spring Boot on Istio using jaeger
+
+TODO
 

@@ -31,12 +31,20 @@ public class App {
 
     @Bean
     @ConditionalOnExpression("'System.getenv(\"HOSTNAME\")'=='null'")
-    public Tracer jaegerTracer() {
+    public Tracer localJaegerTracer() {
         Sender sender = new HttpSender(URL);
         Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
         return new Configuration("spring-boot",
                 new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
                 new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
+                .getTracer();
+    }
+
+    @Bean
+    public Tracer jaegerTracer() {
+        return new Configuration("spring-boot",
+                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+                new Configuration.ReporterConfiguration())
                 .getTracer();
     }
 

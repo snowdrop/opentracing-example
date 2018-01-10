@@ -2,6 +2,18 @@ spec:
   template:
     spec:
       containers:
+      - image: booster-opentracing:latest
+        imagePullPolicy: IfNotPresent
+        name: spring-boot
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        securityContext:
+          privileged: false
       - image: jaegertracing/jaeger-agent
         name: jaeger-agent
         ports:
@@ -15,15 +27,3 @@ spec:
         command:
         - "/go/bin/agent-linux"
         - "--collector.host-port=jaeger-collector.jaeger-infra.svc:14267"
-      - image: booster-opentracing:latest
-        imagePullPolicy: IfNotPresent
-        name: spring-boot
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        - containerPort: 8778
-          name: jolokia
-          protocol: TCP
-        securityContext:
-          privileged: false
