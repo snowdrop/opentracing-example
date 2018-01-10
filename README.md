@@ -1,90 +1,56 @@
-# Instructions
+# Instructions to play with Distributed Tracing
 
-1. Create new Spring Boot Booster using this command
-
-```bash
-mvn archetype:generate -DarchetypeGroupId=me.snowdrop \
-                       -DarchetypeArtifactId=booster-archetype \
-                       -DarchetypeVersion=1.0.0-SNAPSHOT \
-  					   -DgroupId=me.snowdrop \
-  					   -DartifactId=booster-opentracing \
-  					   -Dversion=1.0-SNAPSHOT
-```
-
-2. Add missing dependencies
-
-```xml
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-web</artifactId>
-</dependency>
-
-<!-- Dep required - Why ? -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-websocket</artifactId>
-</dependency>
-
-<!-- OpenTracing -->
-<dependency>
-    <groupId>io.opentracing.contrib</groupId>
-    <artifactId>opentracing-spring-cloud-starter</artifactId>
-    <version>0.0.7</version>
-</dependency>
-<!-- Jaeger -->
-<dependency>
-    <groupId>com.uber.jaeger</groupId>
-    <artifactId>jaeger-core</artifactId>
-    <version>0.22.0-RC2</version>
-</dependency>
-```
-3. Next add the Tracer Bean Definition
-
-```bash
-    @Bean
-    public io.opentracing.Tracer jaegerTracer() {
-     return new Configuration("spring-boot", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-                new Configuration.ReporterConfiguration())
-                .getTracer();
-    }
-```
-
-4. Install Jaeger on OpenShift to collect the traces
+1. Install Jaeger on OpenShift to collect the traces
 
 ```bash
 oc project jaeger
 oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
 ```
 
-5. Specify the url address of the Jaeger Collector
+3. Create a route to access the Jaeger collector
+
+```bash
+oc expose service jaeger-collector --port=14268
+```
+
+2. Specify next the url address of the Jaeger Collector to be used
+
+Get the route address
+
+```bash
+oc get route/jaeger-collector --template={{.spec.host}}      
+```
+
+Add the following property `http.sender` to the application.properties file with the route address of the collector
 
 ```bash
 http.sender= http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
 ```
 
-and next define the httpSender class to access the Jaeger collector running on Openshift
+and next configure the tracer to access the Jaeger collector running on Openshift
 
 ```java
 @Value("${http.sender}")
 String URL;
 
-    @Bean
-    public Tracer jaegerTracer() {
-        Sender sender = new HttpSender(URL);
-        Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
-        return new Configuration("spring-boot",
-                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-                new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
-                .getTracer();
-    }
+@Bean
+public Tracer jaegerTracer() {
+    Sender sender = new HttpSender(URL);
+    Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
+    return new Configuration("spring-boot",
+            new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+            new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
+            .getTracer();
+}
 ```
 
-6. Start Spring Boot
+3. Start Spring Boot
 
 ```bash
 mvn spring-boot:run
 ```
-7. Issue a http request and open the Jaeger console to fetch the traces
+
+4. Issue a http request
 
 ```bash
 http http://localhost:8080/hello
@@ -94,4 +60,37 @@ Content-Type: text/plain;charset=UTF-8
 Date: Wed, 10 Jan 2018 16:00:50 GMT
 
 Hello from Spring Boot!
+```
+
+5. Open the Jaeger console to fetch the traces
+
+```bash
+oc get route/jaeger-query --template={{.spec.host}} 
+open https://jaeger-query-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/search
+```
+
+or query it from a terminal
+
+```bash
+http --verify=no https://jaeger-query-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces?service=spring-boot
+HTTP/1.1 200 OK
+Cache-control: private
+Content-Type: application/json
+Date: Wed, 10 Jan 2018 17:13:34 GMT
+Set-Cookie: f2a76eea670eef399f3e86a8a443f3e5=713f7dc386ce37099352855f8ec66619; path=/; HttpOnly
+Transfer-Encoding: chunked
+
+{
+    "data": [
+        {
+            "processes": {
+                "p1": {
+                    "serviceName": "spring-boot",
+                    "tags": [
+                        {
+                            "key": "hostname",
+                            "type": "string",
+                            "value": "dabou"
+                        },
+
 ```
