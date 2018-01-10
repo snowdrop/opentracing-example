@@ -35,10 +35,10 @@ mvn archetype:generate -DarchetypeGroupId=me.snowdrop \
 <dependency>
     <groupId>com.uber.jaeger</groupId>
     <artifactId>jaeger-core</artifactId>
-    <version>0.21.0</version>
+    <version>0.22.0-RC2</version>
 </dependency>
 ```
-3. Next move to the maven project and add the Tracer Bean Definition
+3. Next add the Tracer Bean Definition
 
 ```bash
     @Bean
@@ -49,7 +49,7 @@ mvn archetype:generate -DarchetypeGroupId=me.snowdrop \
     }
 ```
 
-4. Install Jaeger on Openshift to collect the traces
+4. Install Jaeger on OpenShift to collect the traces
 
 ```bash
 oc project jaeger
@@ -62,7 +62,7 @@ oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/m
 http.sender= http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
 ```
 
-and next define the httpSender class to access the Jaeger collector runnin on Openshift
+and next define the httpSender class to access the Jaeger collector running on Openshift
 
 ```java
 @Value("${http.sender}")
