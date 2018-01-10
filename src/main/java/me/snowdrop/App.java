@@ -35,17 +35,17 @@ public class App {
         Sender sender = new HttpSender(URL);
         Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
         return new Configuration("spring-boot",
-                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-                new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
-                .getTracer();
+          new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+          new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
+          .getTracer();
     }
 
     @Bean
     public Tracer jaegerTracer() {
         return new Configuration("spring-boot",
-                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-                new Configuration.ReporterConfiguration())
-                .getTracer();
+           new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+           new Configuration.ReporterConfiguration(true, System.getenv("HOSTNAME"),null,null, null))
+           .getTracer();
     }
 
     public static void main(String[] args) {

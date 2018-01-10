@@ -1,5 +1,6 @@
 package me.snowdrop;
 
+import me.snowdrop.service.SayGoodbye;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class HelloController {
     @RequestMapping("/hello")
     public String hello() {
         return "Hello from Spring Boot running on " + getHostname() + " !'";
+    }
+
+    @RequestMapping("/goodbye")
+    public String goodbye() {
+        return SayGoodbye.getMessage();
     }
 
     @RequestMapping("/chaining")
