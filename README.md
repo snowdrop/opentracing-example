@@ -46,13 +46,13 @@ public Tracer jaegerTracer() {
 }
 ```
 
-3. Start Spring Boot
+4. Start Spring Boot
 
 ```bash
 mvn spring-boot:run
 ```
 
-4. Issue a http request
+5. Issue a http request
 
 ```bash
 http http://localhost:8080/hello
@@ -64,7 +64,7 @@ Date: Wed, 10 Jan 2018 16:00:50 GMT
 Hello from Spring Boot!
 ```
 
-5. Open the Jaeger console to fetch the traces
+6. Open the Jaeger console to fetch the traces
 
 ```bash
 oc get route/jaeger-query --template={{.spec.host}} 
@@ -151,7 +151,7 @@ public Tracer jaegerTracer() {
 mvn install fabric8:deploy -Popenshift
 ```
 
-2. Get the route and curl the service
+4. Get the route and curl the service
 
 ```bash
 oc get route/booster-opentracing --template={{.spec.host}} 
