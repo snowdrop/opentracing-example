@@ -9,13 +9,13 @@ oc project jaeger
 oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
 ```
 
-3. Create a route to access the Jaeger collector
+2. Create a route to access the Jaeger collector
 
 ```bash
 oc expose service jaeger-collector --port=14268
 ```
 
-2. Specify next the url address of the Jaeger Collector to be used
+3. Specify next the url address of the Jaeger Collector to be used
 
 Get the route address
 
