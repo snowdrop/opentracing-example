@@ -12,7 +12,7 @@ oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/m
 2. Create a route to access the Jaeger collector
 
 ```bash
-oc expose service jaeger-collector --port=14268
+oc expose service jaeger-collector --port=14268 -n jaeger
 ```
 
 3. Specify next the url address of the Jaeger Collector to be used
@@ -20,25 +20,47 @@ oc expose service jaeger-collector --port=14268
 Get the route address
 
 ```bash
-oc get route/jaeger-collector --template={{.spec.host}}      
+oc get route/jaeger-collector --template={{.spec.host}} -n jaeger     
 ```
 
-Add the following property `http.sender` to the application.properties file with the route address of the collector
+Add the following `jaeger` properties to the application.yml file with the route address of the collector
 
 ```bash
-http.sender= http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
+jaeger:
+  protocol: HTTP
+  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
+  protocol: 0
 ```
 
-and next configure the tracer to access the Jaeger collector running on Openshift
+and next configure the tracer to access the Jaeger collector running on OpenShift
 
 ```java
-@Value("${http.sender}")
-String URL;
+@Value("${jaeger.sender}")
+String JAEGER_URL;
+
+@Value("${jaeger.protocol}")
+String JAEGER_PROTOCOL;
+
+@Value("${jaeger.port}")
+int JAEGER_PORT;
 
 @Bean
-public Tracer jaegerTracer() {
-    Sender sender = new HttpSender(URL);
-    Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
+public Tracer JaegerTracer() {
+    Sender sender;
+    if (JAEGER_PROTOCOL.equals("HTTP")) {
+        LOG.info(">>> Jaeger Tracer calling the collector using a Http sender !");
+        sender = new HttpSender(JAEGER_URL);
+    } else {
+        LOG.info(">>> Jaeger Tracer calling the Jaeger Agent running as a container sidecar with Udp Sender");
+        // If maxPacketSize is null, then ThriftSender will set it to 65000
+        sender = new UdpSender(JAEGER_URL,JAEGER_PORT,0);
+    }
+
+    Configuration.SenderConfiguration senderConfiguration = new Configuration
+            .SenderConfiguration.Builder()
+            .sender(sender)
+            .build();
+
     return new Configuration("spring-boot",
             new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
             new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
@@ -49,7 +71,7 @@ public Tracer jaegerTracer() {
 4. Start Spring Boot
 
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run -Dspring.profiles.active=local
 ```
 
 5. Issue a http request
@@ -61,7 +83,7 @@ Content-Length: 23
 Content-Type: text/plain;charset=UTF-8
 Date: Wed, 10 Jan 2018 16:00:50 GMT
 
-Hello from Spring Boot!
+Hello from Spring Boot running on a local machine !'
 ```
 
 6. Open the Jaeger console to fetch the traces

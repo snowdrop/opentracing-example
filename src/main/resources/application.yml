@@ -1,0 +1,12 @@
+jaeger:
+  protocol: UDP
+  sender: ${HOSTNAME}
+  port: 6831
+---
+spring.profiles: local
+jaeger:
+  protocol: HTTP
+  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
+  port: 0
+
+

@@ -5,6 +5,7 @@ import com.uber.jaeger.samplers.ProbabilisticSampler;
 import com.uber.jaeger.senders.HttpSender;
 import com.uber.jaeger.senders.Sender;
 
+import com.uber.jaeger.senders.UdpSender;
 import io.opentracing.Tracer;
 
 import org.slf4j.Logger;
@@ -23,8 +24,14 @@ public class App {
 
     private static Logger LOG = LoggerFactory.getLogger(App.class);
 
-    @Value("${http.sender}")
-    String URL;
+    @Value("${jaeger.sender}")
+    String JAEGER_URL;
+
+    @Value("${jaeger.protocol}")
+    String JAEGER_PROTOCOL;
+
+    @Value("${jaeger.port}")
+    int JAEGER_PORT;
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
@@ -32,24 +39,26 @@ public class App {
     }
 
     @Bean
-    @ConditionalOnExpression("'System.getenv(\"HOSTNAME\")'=='null'")
-    public Tracer localJaegerTracer() {
-        LOG.info(">>> Using Jaeger Tracer calling the collector using Http sender !");
-        Sender sender = new HttpSender(URL);
-        Configuration.SenderConfiguration senderConfiguration = new Configuration.SenderConfiguration.Builder().sender(sender).build();
-        return new Configuration("spring-boot",
-          new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-          new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
-          .getTracer();
-    }
+    public Tracer JaegerTracer() {
+        Sender sender;
+        if (JAEGER_PROTOCOL.equals("HTTP")) {
+            LOG.info(">>> Jaeger Tracer calling the collector using a Http sender !");
+            sender = new HttpSender(JAEGER_URL);
+        } else {
+            LOG.info(">>> Jaeger Tracer calling the Jaeger Agent running as a container sidecar with Udp Sender");
+            // If maxPacketSize is null, then ThriftSender will set it to 65000
+            sender = new UdpSender(JAEGER_URL,JAEGER_PORT,0);
+        }
 
-    @Bean
-    public Tracer jaegerTracer() {
-        LOG.info(">>> Using Jaeger Tracer calling the Jaeger Agent running as a container sidecar");
+        Configuration.SenderConfiguration senderConfiguration = new Configuration
+                .SenderConfiguration.Builder()
+                .sender(sender)
+                .build();
+
         return new Configuration("spring-boot",
-           new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-           new Configuration.ReporterConfiguration(true, System.getenv("HOSTNAME"),null,null, null))
-           .getTracer();
+                new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+                new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
+                .getTracer();
     }
 
     public static void main(String[] args) {
