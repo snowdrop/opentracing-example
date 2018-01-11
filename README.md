@@ -121,69 +121,10 @@ Transfer-Encoding: chunked
 
 ## Spring Boot deployed on OpenShift with Jaeger Agent as sidecar
 
-1. Add a fabric8 dc.yml file containing the definition of the jaeger-agent container to be deployed within the same pod
-
-```bash
-spec:
-  template:
-    spec:
-      containers:
-      - image: jaegertracing/jaeger-agent
-        name: jaeger-agent
-        ports:
-        - containerPort: 5775
-          protocol: UDP
-        - containerPort: 5778
-        - containerPort: 6831
-          protocol: UDP
-        - containerPort: 6832
-          protocol: UDP
-        command:
-        - "/go/bin/agent-linux"
-        - "--collector.host-port=jaeger-collector.jaeger-infra.svc:14267"
-      - image: booster-opentracing:latest
-        imagePullPolicy: IfNotPresent
-        name: spring-boot
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        - containerPort: 8778
-          name: jolokia
-          protocol: TCP
-        securityContext:
-          privileged: false
-```
-
-2. Add a new Bean to use the default config and call the udp ports `localhost:5775/localhost:6831/localhost:6832`
-
-```java
-@Bean
-public Tracer jaegerTracer() {
-    return new Configuration("spring-boot",
-            new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-            new Configuration.ReporterConfiguration())
-            .getTracer();
-}
-```
-
-3. Deploy the Spring Boot app
-
-```bash
-mvn install fabric8:deploy -Popenshift
-```
-
-4. Get the route and curl the service
-
-```bash
-oc get route/booster-opentracing --template={{.spec.host}} 
-http http://booster-opentracing-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
-```
-
-As Fabric8 Maven Plugin doesn't allow to easily add a side car container within thge DeploymentConfig file generated, then an Openshift Template should be created 
+As Fabric8 Maven Plugin doesn't allow to easily add a side car container within the DeploymentConfig yaml file generated, then an OpenShift Template should be created 
 to build/deploy it on OpenShift !!!!
 
-Instructions to install the template, create a new app/deployment from the template and next start the s2i build
+1. Instructions to install the template, create a new app/deployment from the template and next start the s2i build
 
 ```bash
 oc new-project demo
@@ -194,18 +135,17 @@ oc new-app spring-boot-tracing-template \
 oc logs -f bc/spring-boot-tracing-s2i
 ```
 
-To start a new build
+2. To start a new build
 
 ```bash
 oc start-build spring-boot-tracing-s2i
 ```
-Get the route and curl the service
+3. Get the route and curl the service
 
 ```bash
 oc get route/spring-boot-tracing --template={{.spec.host}} 
 http http://spring-boot-tracing-demo.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
 ```
-
 
 ## Spring Boot on Istio using jaeger
 

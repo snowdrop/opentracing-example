@@ -1,8 +1,9 @@
 package me.snowdrop;
 
-import me.snowdrop.service.SayGoodbye;
+import io.opentracing.Tracer;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,10 @@ public class HelloController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    @Qualifier("app-tracer")
+    private Tracer tracer;
 
     public String getHostname() {
         return System.getenv("HOSTNAME") == null ? "a local machine" : System.getenv("HOSTNAME") + "pod";
@@ -25,7 +30,8 @@ public class HelloController {
 
     @RequestMapping("/goodbye")
     public String goodbye() {
-        return SayGoodbye.getMessage();
+       tracer.buildSpan("Calling SayGoodBye service");
+       return "Say Goodbye !";
     }
 
     @RequestMapping("/chaining")
