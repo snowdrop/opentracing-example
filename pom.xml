@@ -30,11 +30,6 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
             <version>1.5.8.RELEASE</version>
         </dependency>
-        <!-- Dep required - Why ? -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
 
         <!-- OpenTracing -->
         <dependency>
@@ -42,6 +37,13 @@
             <artifactId>opentracing-spring-cloud-starter</artifactId>
             <version>0.0.7</version>
         </dependency>
+        <!-- Pin the impl otherwise is overridden by parent -->
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-cloud</artifactId>
+            <version>0.0.7</version>
+        </dependency>
+
         <!-- Jaeger -->
         <dependency>
             <groupId>com.uber.jaeger</groupId>
