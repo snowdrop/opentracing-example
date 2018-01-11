@@ -161,6 +161,25 @@ http http://booster-opentracing-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu
 As Fabric8 Maven Plugin doesn't allow to easily add a side car container within thge DeploymentConfig file generated, then an Openshift Template should be created 
 to build/deploy it on OpenShift !!!!
 
+Instructions to install the template, create a new app/deployment from the template and next start the s2i build
+
+```bash
+oc new-project demo
+oc create -f openshift/spring-boot-tracing.yml
+oc new-app spring-boot-tracing-template \
+  -p SOURCE_REPOSITORY_URL=https://github.com/snowdrop/spring-boot-opentracing-booster.git
+...
+oc logs -f bc/spring-boot-tracing-s2i
+```
+
+Get the route and curl the service
+
+```bash
+oc get route/spring-boot-tracing --template={{.spec.host}} 
+http http://spring-boot-tracing-demo.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
+```
+
+
 ## Spring Boot on Istio using jaeger
 
 TODO
