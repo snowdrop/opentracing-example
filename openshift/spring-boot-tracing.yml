@@ -133,9 +133,6 @@ objects:
             protocol: UDP
           - containerPort: 6832
             protocol: UDP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
