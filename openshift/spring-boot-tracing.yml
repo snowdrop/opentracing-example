@@ -107,18 +107,6 @@ objects:
                 fieldPath: metadata.namespace
           image: spring-boot-tracing:latest
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 180
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 10
           name: spring-boot
           ports:
           - containerPort: 8080
