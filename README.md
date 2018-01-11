@@ -158,6 +158,9 @@ oc get route/booster-opentracing --template={{.spec.host}}
 http http://booster-opentracing-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
 ```
 
+As Fabric8 Maven Plugin doesn't allow to easily add a side car container within thge DeploymentConfig file generated, then an Openshift Template should be created 
+to build/deploy it on OpenShift !!!!
+
 ## Spring Boot on Istio using jaeger
 
 TODO
