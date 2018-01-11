@@ -194,6 +194,11 @@ oc new-app spring-boot-tracing-template \
 oc logs -f bc/spring-boot-tracing-s2i
 ```
 
+To start a new build
+
+```bash
+oc start-build spring-boot-tracing-s2i
+```
 Get the route and curl the service
 
 ```bash
