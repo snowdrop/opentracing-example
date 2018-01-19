@@ -147,10 +147,6 @@ objects:
           kind: ImageStreamTag
           name: runtime:latest
       type: Source
-    triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
 - apiVersion: v1
   kind: ImageStream
   metadata:
