@@ -15,6 +15,11 @@
 
     <name>Spring Boot - Booster archetype</name>
 
+    <properties>
+        <opentracing-api.version>0.31.0</opentracing-api.version>
+        <opentracing-contrib.version>0.1.0</opentracing-contrib.version>
+    </properties>
+
     <dependencies>
         <!-- Basic Spring Boot starter -->
         <dependency>
@@ -39,22 +44,52 @@
 
         <!-- OpenTracing -->
         <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-api</artifactId>
+            <version>${opentracing-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-util</artifactId>
+            <version>${opentracing-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-noop</artifactId>
+            <version>${opentracing-api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-spring-cloud-starter</artifactId>
-            <version>0.0.7</version>
+            <version>${opentracing-contrib.version}</version>
         </dependency>
         <!-- Pin the impl otherwise is overridden by parent -->
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-spring-cloud</artifactId>
-            <version>0.0.7</version>
+            <version>${opentracing-contrib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-web</artifactId>
+            <version>${opentracing-contrib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-web-autoconfigure</artifactId>
+            <version>${opentracing-contrib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-concurrent</artifactId>
+            <version>${opentracing-contrib.version}</version>
         </dependency>
 
         <!-- Jaeger -->
         <dependency>
             <groupId>com.uber.jaeger</groupId>
             <artifactId>jaeger-core</artifactId>
-            <version>0.22.0-RC3</version>
+            <version>0.23.0</version>
         </dependency>
     </dependencies>
 
