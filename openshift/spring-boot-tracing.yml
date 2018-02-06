@@ -7,9 +7,17 @@ annotations:
     tags: "tracing,distributed" # TODO : Refer to the id and categoryAliases in CATALOG_CATEGORIES in the console’s constants file.
 # Parameters
 parameters:
+- name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+  description: The host where the Jaeger Agent is running
+  value: localhost
+  required: true
+- name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+  description: The port where the Jaeger Agent is running
+  value: '6831'
+  required: true
 - name: JAEGER_COLLECTOR_URL
   description: The URL addresss of the Jaeger Collector where traces are send by the Jaeger Agent
-  value: jaeger-collector.jaeger.svc:14267
+  value: jaeger-collector.tracing.svc:14267
   required: true
 - name: SOURCE_REPOSITORY_URL
   description: The source URL for the application
@@ -105,6 +113,10 @@ objects:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.namespace
+          - name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+            value: ${OPENTRACING_JAEGER_UDP_SENDER_HOST}
+          - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+            value: ${OPENTRACING_JAEGER_UDP_SENDER_PORT}
           image: spring-boot-tracing:latest
           imagePullPolicy: IfNotPresent
           name: spring-boot

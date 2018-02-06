@@ -1,9 +1,7 @@
-package me.snowdrop;
+package me.snowdrop.app;
 
 import io.opentracing.Tracer;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +14,6 @@ public class HelloController {
     private RestTemplate restTemplate;
 
     @Autowired
-    @Qualifier("app-tracer")
     private Tracer tracer;
 
     public String getHostname() {

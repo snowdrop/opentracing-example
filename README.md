@@ -26,46 +26,11 @@ oc get route/jaeger-collector --template={{.spec.host}} -n jaeger
 Add the following `jaeger` properties to the application.yml file with the route address of the collector
 
 ```bash
-jaeger:
-  protocol: HTTP
-  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
-  protocol: 0
-```
-
-and next configure the tracer to access the Jaeger collector running on OpenShift
-
-```java
-@Value("${jaeger.sender}")
-String JAEGER_URL;
-
-@Value("${jaeger.protocol}")
-String JAEGER_PROTOCOL;
-
-@Value("${jaeger.port}")
-int JAEGER_PORT;
-
-@Bean
-public Tracer JaegerTracer() {
-    Sender sender;
-    if (JAEGER_PROTOCOL.equals("HTTP")) {
-        LOG.info(">>> Jaeger Tracer calling the collector using a Http sender !");
-        sender = new HttpSender(JAEGER_URL);
-    } else {
-        LOG.info(">>> Jaeger Tracer calling the Jaeger Agent running as a container sidecar with Udp Sender");
-        // If maxPacketSize is null, then ThriftSender will set it to 65000
-        sender = new UdpSender(JAEGER_URL,JAEGER_PORT,0);
-    }
-
-    Configuration.SenderConfiguration senderConfiguration = new Configuration
-            .SenderConfiguration.Builder()
-            .sender(sender)
-            .build();
-
-    return new Configuration("spring-boot",
-            new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-            new Configuration.ReporterConfiguration(true, 10, 10, senderConfiguration))
-            .getTracer();
-}
+opentracing:
+  jaeger:
+    log-spans: true
+    http-sender-properties:
+      url: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
 ```
 
 4. Start Spring Boot

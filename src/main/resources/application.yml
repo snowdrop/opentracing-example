@@ -1,14 +1,12 @@
-server:
-  use-forward-headers: true
-jaeger:
-  protocol: UDP
-  sender: ${HOSTNAME}
-  port: 6831
+opentracing:
+  jaeger:
+    log-spans: true
+    service-name: booster-ot
+    enable-b3-propagation: true
 ---
-spring.profiles: local
-jaeger:
-  protocol: HTTP
-  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
-  port: 0
-
-
+spring:
+  profiles: local
+opentracing:
+  jaeger:
+    http-sender:
+      url: http://localhost:14268/api/traces
