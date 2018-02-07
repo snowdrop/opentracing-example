@@ -15,11 +15,6 @@
 
     <name>Spring Boot - Booster archetype</name>
 
-    <properties>
-        <opentracing-api.version>0.31.0</opentracing-api.version>
-        <opentracing-contrib.version>0.1.0</opentracing-contrib.version>
-    </properties>
-
     <dependencies>
         <!-- Basic Spring Boot starter -->
         <dependency>
