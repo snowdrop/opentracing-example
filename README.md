@@ -112,7 +112,3 @@ oc get route/spring-boot-tracing --template={{.spec.host}}
 http http://spring-boot-tracing-demo.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/hello
 ```
 
-## Spring Boot on Istio using jaeger
-
-TODO
-
