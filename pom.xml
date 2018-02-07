@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.openshift.booster</groupId>
         <artifactId>spring-boot-booster-parent</artifactId>
-        <version>1.5.10.Beta2</version>
+        <version>1.5.10.Beta3</version>
     </parent>
 
     <groupId>me.snowdrop</groupId>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
-            <version>1.5.8.RELEASE</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- OpenTracing -->
@@ -49,20 +49,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>openshift</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>3.5.33</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
+    
     <repositories>
         <repository>
             <id>jboss-snapshots-repository</id>
