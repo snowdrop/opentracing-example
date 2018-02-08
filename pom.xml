@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>me.snowdrop</groupId>
-    <artifactId>booster-opentracing</artifactId>
+    <artifactId>spring-boot-opentracing-booster</artifactId>
     <version>1.0-SNAPSHOT</version>
 
 
