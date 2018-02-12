@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.openshift.booster</groupId>
         <artifactId>spring-boot-booster-parent</artifactId>
-        <version>1.5.10.Beta3</version>
+        <version>1.5.10-2</version>
     </parent>
 
     <groupId>me.snowdrop</groupId>
