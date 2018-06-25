@@ -84,9 +84,9 @@
 
         <!-- OpenTracing -->
         <dependency>
-            <groupId>me.snowdrop</groupId>
-            <artifactId>opentracing-tracer-jaeger-spring-web-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+            <version>0.1.4</version>
         </dependency>
 
         <dependency>

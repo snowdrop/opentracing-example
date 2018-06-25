@@ -4,7 +4,7 @@ A booster that demonstrates how to configure and deploy a Spring Boot app instru
 
 == Technical details
 
-This booster showcases how to use include link:https://github.com/snowdrop/opentracing-tracer[opentracing-tracer]
+This booster showcases how to use include link:https://github.com/opentracing-contrib/java-spring-jaeger[opentracing-spring-jaeger-web-starter]
 to instrument a Spring Boot application by enabling the reporting of Traces to a OpenTracing compatible collector
 
 == Deploying and interacting with the booster

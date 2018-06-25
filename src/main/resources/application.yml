@@ -1,7 +1,8 @@
+spring:
+  application:
+    name: booster-ot
 opentracing:
   jaeger:
-    log-spans: true
-    service-name: booster-ot
     enable-b3-propagation: true
 ---
 spring:
