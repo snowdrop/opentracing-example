@@ -145,31 +145,31 @@
             </licenses>
         </dependency>
         <dependency>
-            <groupId>com.uber.jaeger</groupId>
-            <artifactId>jaeger-core</artifactId>
-            <version>0.24.0</version>
-            <licenses>
-                <license>
-                    <name>Apache License 2.0</name>
-                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
-            <groupId>com.uber.jaeger</groupId>
-            <artifactId>jaeger-thrift</artifactId>
-            <version>0.24.0</version>
-            <licenses>
-                <license>
-                    <name>Apache License 2.0</name>
-                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-                </license>
-            </licenses>
-        </dependency>
-        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-core</artifactId>
+            <version>0.27.0</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-thrift</artifactId>
+            <version>0.27.0</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -212,7 +212,29 @@
         </dependency>
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-spring-web</artifactId>
+            <artifactId>opentracing-spring-jaeger-starter</artifactId>
+            <version>0.1.4</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+            <version>0.1.4</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-tracer-configuration-starter</artifactId>
             <version>0.1.0</version>
             <licenses>
                 <license>
@@ -223,8 +245,19 @@
         </dependency>
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-spring-web-autoconfigure</artifactId>
-            <version>0.1.0</version>
+            <artifactId>opentracing-spring-web</artifactId>
+            <version>0.3.3</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-web-starter</artifactId>
+            <version>0.3.3</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -279,7 +312,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.5</version>
+            <version>4.5.6</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -290,7 +323,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.4.9</version>
+            <version>4.4.10</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -301,7 +334,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.5</version>
+            <version>4.5.6</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -356,7 +389,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-annotations-api</artifactId>
-            <version>8.5.31</version>
+            <version>8.5.32</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -367,7 +400,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>8.5.31</version>
+            <version>8.5.32</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -378,7 +411,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
-            <version>8.5.31</version>
+            <version>8.5.32</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -389,7 +422,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
-            <version>8.5.31</version>
+            <version>8.5.32</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -620,7 +653,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -631,7 +664,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -642,7 +675,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -653,7 +686,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -664,7 +697,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
@@ -675,7 +708,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.5.14.RELEASE</version>
+            <version>1.5.15.RELEASE</version>
             <licenses>
                 <license>
                     <name>Apache License 2.0</name>
