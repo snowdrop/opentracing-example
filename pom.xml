@@ -8,7 +8,7 @@
   </parent>
   <groupId>me.snowdrop</groupId>
   <artifactId>spring-boot-opentracing-booster</artifactId>
-  <version>1.5.19-2-SNAPSHOT</version>
+  <version>1.5.19-2</version>
   <name>Spring Boot - Opentracing Booster</name>
   <properties>
     <arquillian.version>1.4.0.Final</arquillian.version>
