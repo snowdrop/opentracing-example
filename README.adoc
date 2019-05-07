@@ -1,13 +1,13 @@
 == Purpose
 
-A booster that demonstrates how to configure and deploy a Spring Boot app instrumented using Opentracing.
+A example that demonstrates how to configure and deploy a Spring Boot app instrumented using Opentracing.
 
 == Technical details
 
-This booster showcases how to use include link:https://github.com/opentracing-contrib/java-spring-jaeger[opentracing-spring-jaeger-web-starter]
+This example showcases how to use include link:https://github.com/opentracing-contrib/java-spring-jaeger[opentracing-spring-jaeger-web-starter]
 to instrument a Spring Boot application by enabling the reporting of Traces to a OpenTracing compatible collector
 
-== Deploying and interacting with the booster
+== Deploying and interacting with the example
 
 === Spring Boot running locally
 
@@ -113,7 +113,7 @@ to build/deploy it on OpenShift !!!!
 oc new-project demo
 oc create -f openshift/spring-boot-tracing.yml
 oc new-app spring-boot-tracing-template \
-  -p SOURCE_REPOSITORY_URL=https://github.com/snowdrop/spring-boot-opentracing-booster.git
+  -p SOURCE_REPOSITORY_URL=https://github.com/snowdrop/opentracing-example.git
 ...
 oc logs -f bc/spring-boot-tracing-s2i
 ----

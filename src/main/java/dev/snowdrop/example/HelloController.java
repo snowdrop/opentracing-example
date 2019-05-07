@@ -1,4 +1,4 @@
-package me.snowdrop.app;
+package dev.snowdrop.example;
 
 import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;

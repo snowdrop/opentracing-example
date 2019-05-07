@@ -1,6 +1,6 @@
 spring:
   application:
-    name: booster-ot
+    name: example-ot
 opentracing:
   jaeger:
     enable-b3-propagation: true
