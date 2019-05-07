@@ -6,10 +6,10 @@
     <artifactId>booster-parent</artifactId>
     <version>23</version>
   </parent>
-  <groupId>me.snowdrop</groupId>
-  <artifactId>spring-boot-opentracing-booster</artifactId>
+  <groupId>dev.snowdrop.example</groupId>
+  <artifactId>opentracing</artifactId>
   <version>1.5.19-3-SNAPSHOT</version>
-  <name>Spring Boot - Opentracing Booster</name>
+  <name>Spring Boot - Opentracing Example</name>
   <properties>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <junit.version>4.12</junit.version>
@@ -31,7 +31,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>me.snowdrop</groupId>
+        <groupId>dev.snowdrop.example</groupId>
         <artifactId>spring-boot-bom</artifactId>
         <version>${spring-boot-bom.version}</version>
         <type>pom</type>
