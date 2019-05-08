@@ -55,7 +55,7 @@ objects:
   metadata:
     labels:
       app: spring-boot-tracing
-      group: io.openshift.booster
+      group: dev.snowdrop.example
       version: 1.0-SNAPSHOT
     name: spring-boot-tracing
   spec:
@@ -66,13 +66,13 @@ objects:
       targetPort: 8080
     selector:
       app: spring-boot-tracing
-      group: io.openshift.booster
+      group: dev.snowdrop.example
 - apiVersion: v1
   kind: Route
   metadata:
     labels:
       app: spring-boot-tracing
-      group: io.openshift.booster
+      group: dev.snowdrop.example
       version: 1.0-SNAPSHOT
     name: spring-boot-tracing
   spec:
@@ -86,14 +86,14 @@ objects:
   metadata:
     labels:
       app: spring-boot-tracing
-      group: io.openshift.booster
+      group: dev.snowdrop.example
       version: 1.0-SNAPSHOT
     name: spring-boot-tracing
   spec:
     replicas: 1
     selector:
       app: spring-boot-tracing
-      group: io.openshift.booster
+      group: dev.snowdrop.example
       version: 1.0-SNAPSHOT
     strategy:
       rollingParams:
@@ -103,7 +103,7 @@ objects:
       metadata:
         labels:
           app: spring-boot-tracing
-          group: io.openshift.booster
+          group: dev.snowdrop.example
           version: 1.0-SNAPSHOT
       spec:
         containers:
