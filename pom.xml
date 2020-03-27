@@ -8,12 +8,12 @@
   </parent>
   <groupId>dev.snowdrop.example</groupId>
   <artifactId>opentracing</artifactId>
-  <version>2.1.13-3-SNAPSHOT</version>
+  <version>2.1.13-3-redhat</version>
   <name>Spring Boot - Opentracing Example</name>
   <properties>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <junit.version>4.12</junit.version>
-    <spring-boot-bom.version>2.1.13.Beta1</spring-boot-bom.version>
+    <spring-boot-bom.version>2.1.13.Final-redhat-00001</spring-boot-bom.version>
     <spring-boot.version>2.1.13.RELEASE</spring-boot.version>
     <opentracing-spring-web.version>1.0.2</opentracing-spring-web.version>
     <awaitility.version>1.7.0</awaitility.version>
