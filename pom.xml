@@ -12,7 +12,7 @@
   <name>Spring Boot - Opentracing Example</name>
   <properties>
     <arquillian.version>1.4.0.Final</arquillian.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <spring-boot-bom.version>1.5.19.SP1</spring-boot-bom.version>
     <spring-boot.version>1.5.19.RELEASE</spring-boot.version>
     <awaitility.version>1.7.0</awaitility.version>
